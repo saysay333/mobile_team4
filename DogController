@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,8 +10,6 @@ public class DogController : MonoBehaviour
     private float walkSpeed;
     [SerializeField]
     private float runSpeed;
-    [SerializeField]
-    private float crouchSpeed;
 
     private float applySpeed;
 
@@ -19,7 +18,6 @@ public class DogController : MonoBehaviour
 
     // 상태 변수
     private bool isRun = false;
-    private bool isCrouch = false;
     private bool isGround = true;
 
     // 땅 착지 여부
@@ -40,12 +38,15 @@ public class DogController : MonoBehaviour
 
     private Rigidbody myRigid;
 
+    private StatusController theStatusController;
+
     // Use this for initialization
     void Start()
     {
         BoxCollider = GetComponent<BoxCollider>();
         myRigid = GetComponent<Rigidbody>();
         applySpeed = walkSpeed;
+        theStatusController = FindObjectOfType<StatusController>();
 
     }
 
@@ -70,7 +71,7 @@ public class DogController : MonoBehaviour
     // 점프 시도
     private void TryJump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isGround)
+        if (Input.GetKeyDown(KeyCode.Space) && isGround && theStatusController.GetCurrentSP() > 0)
         {
             Jump();
         }
@@ -79,19 +80,21 @@ public class DogController : MonoBehaviour
 
     // 점프
     private void Jump()
-    {      
+    {
         myRigid.velocity = transform.up * jumpForce;
+
+        theStatusController.DecreaseStamina(100);
     }
 
 
     // 달리기 시도
     private void TryRun()
     {
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) && theStatusController.GetCurrentSP() > 0)
         {
             Running();
         }
-        if (Input.GetKeyUp(KeyCode.LeftShift))
+        if (Input.GetKeyUp(KeyCode.LeftShift) || theStatusController.GetCurrentSP() <= 0)
         {
             RunningCancel();
         }
@@ -102,6 +105,8 @@ public class DogController : MonoBehaviour
     {
         isRun = true;
         applySpeed = runSpeed;
+
+        theStatusController.DecreaseStamina(10);
     }
 
 
