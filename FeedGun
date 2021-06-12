@@ -1,0 +1,36 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class FeedGun : MonoBehaviour
+{
+    public string gunName;
+    public float range; //거리
+    public float accuracy; //정확도
+    public float fireRate; // 연사속도
+    public float reloadTime; //재장전속도
+
+    public int damage; //데미지
+
+    public int reloadBulletCount; //재장전 개수
+    public int currentBulletCount; //탄알집 남은 총알 개수
+    public int maxBulletCount; // 최대 소유 가능 개수
+    public int carryBulletCount; // 현재 소유 총알 개수
+
+    public ParticleSystem muzzleFlash;
+
+    public AudioClip feed_Sound;
+
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+}
