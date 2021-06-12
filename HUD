@@ -1,0 +1,38 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class HUD : MonoBehaviour
+{
+
+    [SerializeField]
+    private FeedGunController theFeedGunController;
+    private FeedGun currentFeedGun;
+
+    [SerializeField]
+    private GameObject go_BulletHUD;
+
+    [SerializeField]
+    private Text[] text_Bullet;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        CheckBullet();
+    }
+
+    private void CheckBullet()
+    {
+        currentFeedGun = theFeedGunController.GetFeedGun();
+        text_Bullet[0].text = currentFeedGun.carryBulletCount.ToString();
+        text_Bullet[1].text = currentFeedGun.reloadBulletCount.ToString();
+        text_Bullet[2].text = currentFeedGun.currentBulletCount.ToString();
+    }
+}
