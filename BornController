@@ -1,0 +1,32 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class BornController : MonoBehaviour
+{
+    public float bornTime = 2.0f;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        Destroy(gameObject, bornTime);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+    void OnCollisionEnter(Collision Col)
+    {
+        GameObject mt = GameObject.Find("Mushroom");
+
+        if (Col.gameObject.tag == "Mushroom")
+        {
+            mt.GetComponent<Mushroom>().Mining();
+        }
+
+    }
+
+}
