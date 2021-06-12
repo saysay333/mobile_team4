@@ -1,0 +1,63 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Mushroom : MonoBehaviour
+{
+    [SerializeField]
+    private int hp; // 나무의 체력.
+
+    [SerializeField]
+    private float destroyTime; // 파편 제거 시간
+
+    [SerializeField]
+    private CapsuleCollider col; // 캡슐 컬라이더.
+
+    [SerializeField]
+    private GameObject go_mushroom; // 나무.
+    [SerializeField]
+    private GameObject go_boom; // 버섯조각.
+
+    [SerializeField]
+    private AudioSource audioSource;
+    [SerializeField]
+    private AudioClip effect_sound;
+    [SerializeField]
+    private AudioClip effect_sound2;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+    public void Mining()
+    {
+        audioSource.clip = effect_sound;
+        audioSource.Play();
+
+        hp--;
+
+        if (hp <= 0)
+            Destruction();
+
+    }
+
+    private void Destruction()
+    {
+        audioSource.clip = effect_sound2;
+        audioSource.Play();
+
+        col.enabled = false;
+        Destroy(go_mushroom);
+
+        go_boom.SetActive(true);
+        Destroy(go_boom, destroyTime);
+    }
+}
