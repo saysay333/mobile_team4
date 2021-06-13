@@ -1,10 +1,11 @@
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class DogController : MonoBehaviour
 {
+    private GameBehavior gameManager;
+
     //스피드 조정 변수
     [SerializeField]
     private float walkSpeed;
@@ -48,6 +49,9 @@ public class DogController : MonoBehaviour
         applySpeed = walkSpeed;
         theStatusController = FindObjectOfType<StatusController>();
 
+        gameManager = GameObject.Find("GameManagement").GetComponent<GameBehavior>();
+
+
     }
 
     // Update is called once per frame
@@ -57,8 +61,12 @@ public class DogController : MonoBehaviour
         TryJump();
         TryRun();
         Move();
-        CameraRotation();
-        CharacterRotation();
+        MoveCheck();
+        if (!Inventory.inventoryActivated)
+        {
+            CameraRotation();
+            CharacterRotation();
+        }
     }
 
     // 지면 체크.
@@ -83,7 +91,7 @@ public class DogController : MonoBehaviour
     {
         myRigid.velocity = transform.up * jumpForce;
 
-        theStatusController.DecreaseStamina(100);
+        theStatusController.DecreaseStamina(50);
     }
 
 
@@ -106,7 +114,7 @@ public class DogController : MonoBehaviour
         isRun = true;
         applySpeed = runSpeed;
 
-        theStatusController.DecreaseStamina(10);
+        theStatusController.DecreaseStamina(5);
     }
 
 
@@ -131,9 +139,24 @@ public class DogController : MonoBehaviour
         myRigid.MovePosition(transform.position + _velocity * Time.deltaTime);
     }
 
+    private void MoveCheck()
+    {
+        /*
+        if (!isRun && isGround)
+        {
+            if (Vector3.Distance(lastPos, transform.position) >= 0.01f)
+                isWalk = true;
+            else
+                isWalk = false;
 
-    
-     private void CharacterRotation()
+            theCrosshair.WalkingAnimation(isWalk);
+            lastPos = transform.position;
+        }
+        */
+    }
+
+
+    private void CharacterRotation()
     {
         float _yRotation = Input.GetAxisRaw("Mouse X");
         Vector3 _characterRotationY = new Vector3(0f, _yRotation, 0f) * lookSensitivity;
@@ -152,4 +175,13 @@ public class DogController : MonoBehaviour
         theCamera.transform.localEulerAngles = new Vector3(currentCameraRotationX, 0f, 0f);
     }
     
+    void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.name == "Enemy2(Clone)")
+        {
+            gameManager.HP -= 10;
+
+            theStatusController.DecreaseHP(10);
+        }
+    }
 }
