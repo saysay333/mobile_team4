@@ -1,0 +1,88 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class GameBehavior : MonoBehaviour
+{
+    public string labelText;
+    public bool showWindow = false;
+    public bool showLoseWindow = false;
+    public bool showScoreWindow = false;
+
+    private int _playerHP = 100;
+
+    public int HP
+    {
+        get { return _playerHP; }
+        set
+        {
+            _playerHP = value;
+            Debug.LogFormat("HP: {0}", _playerHP);
+
+            if (_playerHP <= 0)
+            {
+                labelText = "You Lose!";
+                showLoseWindow = true;
+            }
+        }
+    }
+
+    public int maxScore = 30;
+    private int _ScoreCount = 0;
+
+    public int Score
+    {
+        get { return _ScoreCount; }
+        set
+        {
+            _ScoreCount = value;
+            Debug.LogFormat("Score: {0}", _ScoreCount);
+
+            if (_ScoreCount >= maxScore)
+            {
+                showScoreWindow = true;
+            }
+        }
+
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
+    void OnGUI()
+    {
+        GUI.Box(new Rect(20, 20, 150, 25), "Score:" + _ScoreCount);
+        //GUI.Label(new Rect(Screen.width / 2 - 100, Screen.height - 50, 300, 50), labelText);
+
+        if (showLoseWindow)
+        {
+            if (GUI.Button(new Rect(Screen.width / 2 - 100, Screen.height / 2 - 50, 200, 100), "YOU LOSE!"))
+            {
+                SceneManager.LoadScene(0);
+
+            }
+        }
+        if (showScoreWindow)
+        {
+            if (GUI.Button(new Rect(Screen.width / 2 - 100, Screen.height / 2 - 50, 200, 100), "YOU SAVE THE FARM!!"))
+            {
+                SceneManager.LoadScene(0);
+            }
+        }
+    }
+
+
+
+}
+
