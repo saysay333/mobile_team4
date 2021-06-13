@@ -1,0 +1,36 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class EnemyManagement : MonoBehaviour
+{
+    float currentTime;
+    public float createTIme = 1.0f;
+    public GameObject enemy;
+    public float minTime = 2.0f;
+    public float maxTime = 5.0f;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        currentTime = 0.0f;
+        createTIme = UnityEngine.Random.Range(minTime, maxTime);
+        Debug.LogFormat("Creat Time: {0}", createTIme);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        currentTime += Time.deltaTime;
+
+        if(currentTime > createTIme)
+        {
+            GameObject newEnemy = Instantiate(enemy);
+            newEnemy.transform.position = transform.position;
+
+            currentTime = 0.0f;
+            createTIme = UnityEngine.Random.Range(minTime, maxTime);
+            Debug.LogFormat("Creat Time: {0}", createTIme);
+        }
+    }
+}
