@@ -11,12 +11,18 @@ public class Mushroom : MonoBehaviour
     private float destroyTime; // 파편 제거 시간
 
     [SerializeField]
-    private CapsuleCollider col; // 캡슐 컬라이더.
+    private CapsuleCollider col; // 캡슐 콜라이더.
 
     [SerializeField]
     private GameObject go_mushroom; // 나무.
     [SerializeField]
     private GameObject go_boom; // 버섯조각.
+    [SerializeField]
+    private GameObject go_mushroom_item_prefab;
+
+    //버섯 등장 개수
+    [SerializeField]
+    private int count;
 
     [SerializeField]
     private AudioSource audioSource;
@@ -24,6 +30,7 @@ public class Mushroom : MonoBehaviour
     private AudioClip effect_sound;
     [SerializeField]
     private AudioClip effect_sound2;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -55,6 +62,12 @@ public class Mushroom : MonoBehaviour
         audioSource.Play();
 
         col.enabled = false;
+
+        for (int i = 0; i <= count; i++)
+        {
+            Instantiate(go_mushroom_item_prefab, go_mushroom.transform.position, Quaternion.identity);
+        }
+
         Destroy(go_mushroom);
 
         go_boom.SetActive(true);
