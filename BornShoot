@@ -30,5 +30,5 @@ public class BornShoot : MonoBehaviour
 
         bornInstance.velocity = 25.0f * bornTransform.forward;
     }
-
+ 
 }
